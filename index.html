@@ -97,18 +97,38 @@
         .profile-pic {
             animation: rgb-border-animation 10s linear infinite;
         }
-        .current-activity {
-            background-color: #161b22;
-            padding: 1rem;
-            border-radius: 10px;
-            width: 80%;
-            max-width: 600px;
-            margin-bottom: 2rem;
-            text-align: center;
+
+        main {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
         }
 
-        #activity-message {
-            font-style: italic;
+        .profile-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            width: 80%;
+            max-width: 800px;
+            margin-bottom: 2rem;
+        }
+
+        .profile {
+            text-align: center;
+            margin-right: 2rem;
+        }
+
+        .about-me {
+            background-color: #161b22;
+            padding: 1.5rem;
+            border-radius: 10px;
+            flex-grow: 1;
+        }
+
+        .about-me h3 {
+            margin-top: 0;
         }
     </style>
 </head>
@@ -117,11 +137,18 @@
         <h1>Welcome to My GitHub Profile</h1>
     </header>
     <main>
-        <section class="profile">
-            <img src="https://raw.githubusercontent.com/TheCoobert/coobert/main/favicon/favicon.ico" alt="Profile Picture" class="profile-pic">
-            <h2>Coobert</h2>
-            <p>GitHub Developer | Cat Enthusiast</p>
-        </section>
+        <div class="profile-container">
+            <section class="profile">
+                <img src="https://raw.githubusercontent.com/TheCoobert/coobert/main/favicon/favicon.ico" alt="Profile Picture" class="profile-pic">
+                <h2>Coobert</h2>
+                <p>GitHub Developer | Cat Enthusiast</p>
+            </section>
+            <section class="about-me">
+                <h3>About Me</h3>
+                <p>Hello! I'm Coobert, a passionate developer and cat lover. I enjoy creating cool projects and exploring new technologies. When I'm not coding, you can find me making TikTok videos or playing with my cats.</p>
+                <p>Feel free to check out my projects and connect with me on GitHub!</p>
+            </section>
+        </div>
         <section class="projects">
             <h3>Featured Projects</h3>
             <ul>
@@ -134,60 +161,5 @@
     <footer>
         <p>Follow me on <a href="https://github.com/thecoobert">GitHub</a> | Inspired by <a href="https://www.tiktok.com/@yungcoobert">Yung Coobert</a> (me)</p>
     </footer>
-
-    <script>
-        // Function to update the activity message
-        function updateActivity(message) {
-            document.getElementById('activity-message').textContent = message;
-        }
-
-        // Webhook endpoint (replace with your actual webhook URL)
-        const webhookUrl = 'https://your-webhook-url.com/activity';
-
-        // Function to fetch activity updates
-        async function fetchActivityUpdates() {
-            try {
-                const response = await fetch(webhookUrl);
-                if (response.ok) {
-                    const data = await response.json();
-                    updateActivity(data.message);
-                } else {
-                    console.error('Failed to fetch activity update');
-                }
-            } catch (error) {
-                console.error('Error fetching activity update:', error);
-            }
-        }
-
-        // Fetch activity updates every 30 seconds
-        setInterval(fetchActivityUpdates, 30000);
-
-        // Initial fetch
-        fetchActivityUpdates();
-
-        // Message webhook function
-        async function sendActivityMessage(message) {
-            try {
-                const response = await fetch(webhookUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ message }),
-                });
-
-                if (response.ok) {
-                    console.log('Activity message sent successfully');
-                } else {
-                    console.error('Failed to send activity message');
-                }
-            } catch (error) {
-                console.error('Error sending activity message:', error);
-            }
-        }
-
-        // Example usage of the message webhook
-        // sendActivityMessage('Coding a new project!');
-    </script>
 </body>
 </html>
