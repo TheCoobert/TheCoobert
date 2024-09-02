@@ -97,6 +97,19 @@
         .profile-pic {
             animation: rgb-border-animation 10s linear infinite;
         }
+        .current-activity {
+            background-color: #161b22;
+            padding: 1rem;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        #activity-message {
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -121,5 +134,60 @@
     <footer>
         <p>Follow me on <a href="https://github.com/thecoobert">GitHub</a> | Inspired by <a href="https://www.tiktok.com/@yungcoobert">Yung Coobert</a> (me)</p>
     </footer>
+
+    <script>
+        // Function to update the activity message
+        function updateActivity(message) {
+            document.getElementById('activity-message').textContent = message;
+        }
+
+        // Webhook endpoint (replace with your actual webhook URL)
+        const webhookUrl = 'https://your-webhook-url.com/activity';
+
+        // Function to fetch activity updates
+        async function fetchActivityUpdates() {
+            try {
+                const response = await fetch(webhookUrl);
+                if (response.ok) {
+                    const data = await response.json();
+                    updateActivity(data.message);
+                } else {
+                    console.error('Failed to fetch activity update');
+                }
+            } catch (error) {
+                console.error('Error fetching activity update:', error);
+            }
+        }
+
+        // Fetch activity updates every 30 seconds
+        setInterval(fetchActivityUpdates, 30000);
+
+        // Initial fetch
+        fetchActivityUpdates();
+
+        // Message webhook function
+        async function sendActivityMessage(message) {
+            try {
+                const response = await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message }),
+                });
+
+                if (response.ok) {
+                    console.log('Activity message sent successfully');
+                } else {
+                    console.error('Failed to send activity message');
+                }
+            } catch (error) {
+                console.error('Error sending activity message:', error);
+            }
+        }
+
+        // Example usage of the message webhook
+        // sendActivityMessage('Coding a new project!');
+    </script>
 </body>
 </html>
